@@ -1,0 +1,19 @@
+ r  worker_accuracy  probe_accuracy  text_base_accuracy  base_accuracy  quartet_all_four_correct  route_consistency
+ 0              NaN          0.1000                 NaN         0.1350                    0.0000             1.0000
+ 1           0.2704          0.5630              0.1742         0.3617                    0.0375             0.1425
+ 2           0.9556          0.9704              0.9283         0.8042                    0.5242             0.6494
+ 3           1.0000          1.0000              1.0000         0.9192                    0.7950             0.9275
+ 4           1.0000          1.0000              1.0000         0.9342                    0.7925             0.9331
+ r    condition    n  correct  accuracy  text_correct
+ 1   both_wrong  598      209    0.3495            74
+ 1    any_wrong 1065      376    0.3531            74
+ 1 both_correct  135       58    0.4296           135
+ 2   both_wrong    4        4    1.0000             3
+ 2    any_wrong   89       42    0.4719             3
+ 2 both_correct 1111      923    0.8308          1111
+ 3   both_wrong    0        0       NaN             0
+ 3    any_wrong    0        0       NaN             0
+ 3 both_correct 1200     1103    0.9192          1200
+ 4   both_wrong    0        0       NaN             0
+ 4    any_wrong    0        0       NaN             0
+ 4 both_correct 1200     1121    0.9342          1200

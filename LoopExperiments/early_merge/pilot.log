@@ -1,0 +1,7 @@
+loading /mnt/disk2_from_server2/siqizhu4/models/ouro-2.6b
+forward validation {'official_max_logit_difference': 0.0, 'official_argmax_agreement': 1.0}
+worker accuracy loops 1..4: [1.0, 1.0, 1.0, 1.0]
+text-oracle accuracy loops 1..4: [1.0, 1.0, 1.0, 1.0]
+native {'style': 'raw', 'r': 4, 'accuracy': [0.045, 0.0, 0.0075, 0.0675], 'seconds': 15.160834489855915}
+native {'style': 'rms', 'r': 4, 'accuracy': [0.08, 0.06375, 0.08, 0.09375], 'seconds': 14.930931059177965}
+complete

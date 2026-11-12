@@ -1,0 +1,16 @@
+native {'style': 'raw', 'r': 4, 'accuracy': [0.000625, 0.000625, 0.01125, 0.055], 'seconds': 30.363690385129303}
+native {'style': 'rms', 'r': 4, 'accuracy': [0.08875, 0.075, 0.081875, 0.09], 'seconds': 30.24229508591816}
+serial {'accuracy_k1_to_k8': [0.1, 0.13416666666666666, 0.1525, 0.14583333333333334, 0.14916666666666667, 0.15916666666666668, 0.15833333333333333, 0.15916666666666668], 'prompt_tokens': 176, 'seconds': 53.02190562617034, 'caveat': 'Frozen backbone, no interface training. Loops 5–8 exceed the pretrained four-loop schedule.'}
+latency {'mode': 'latent', 'r': 1, 'k': 1, 'n': 16, 'median_ms': 59.682872612029314, 'p90_ms': 60.23284187540412, 'mean_ms': 59.72915521124378, 'dense_forward_tflops': 2.246373548544}
+latency {'mode': 'text', 'r': 1, 'k': 1, 'n': 16, 'median_ms': 60.42858865112066, 'p90_ms': 61.00192712619901, 'mean_ms': 60.616152215516195, 'dense_forward_tflops': 2.246774095872}
+latency {'mode': 'probe', 'r': 1, 'k': 1, 'n': 16, 'median_ms': 60.65239408053458, 'p90_ms': 61.43170455470681, 'mean_ms': 60.62075280351564, 'dense_forward_tflops': 2.246371442688}
+latency {'mode': 'probe', 'r': 2, 'k': 1, 'n': 16, 'median_ms': 89.85948166809976, 'p90_ms': 90.40177636779845, 'mean_ms': 89.76434866781346, 'dense_forward_tflops': 3.753918332928}
+latency {'mode': 'text', 'r': 2, 'k': 1, 'n': 16, 'median_ms': 89.67769052833319, 'p90_ms': 90.1847155764699, 'mean_ms': 89.7578707372304, 'dense_forward_tflops': 3.754320986112}
+latency {'mode': 'latent', 'r': 2, 'k': 1, 'n': 16, 'median_ms': 89.19017459265888, 'p90_ms': 90.605957666412, 'mean_ms': 89.69587137107737, 'dense_forward_tflops': 3.753920438784}
+latency {'mode': 'latent', 'r': 3, 'k': 1, 'n': 16, 'median_ms': 119.41177840344608, 'p90_ms': 120.39737496525049, 'mean_ms': 119.6427310933359, 'dense_forward_tflops': 5.261467329024}
+latency {'mode': 'text', 'r': 3, 'k': 1, 'n': 16, 'median_ms': 118.9929461106658, 'p90_ms': 119.55348076298833, 'mean_ms': 118.89219327713363, 'dense_forward_tflops': 5.261867876352}
+latency {'mode': 'probe', 'r': 3, 'k': 1, 'n': 16, 'median_ms': 119.7616623248905, 'p90_ms': 120.55723741650581, 'mean_ms': 119.55791551736183, 'dense_forward_tflops': 5.261465223168}
+latency {'mode': 'probe', 'r': 4, 'k': 1, 'n': 16, 'median_ms': 147.3829543683678, 'p90_ms': 150.33089998178184, 'mean_ms': 148.27379587222822, 'dense_forward_tflops': 6.769012113408}
+latency {'mode': 'text', 'r': 4, 'k': 1, 'n': 16, 'median_ms': 148.3578523620963, 'p90_ms': 150.4024942405522, 'mean_ms': 148.50134548032656, 'dense_forward_tflops': 6.769414766592}
+latency {'mode': 'latent', 'r': 4, 'k': 1, 'n': 16, 'median_ms': 146.36704418808222, 'p90_ms': 147.48199912719429, 'mean_ms': 146.64347731741145, 'dense_forward_tflops': 6.769014219264}
+baselines complete

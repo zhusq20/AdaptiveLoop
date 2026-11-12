@@ -1,0 +1,5 @@
+{'r': 0, 'ridge': None, 'train_accuracy': 0.1, 'val_accuracy': 0.1, 'test_accuracy': 0.1}
+{'r': 1, 'ridge': 0.00017465438585936117, 'train_accuracy': 1.0, 'val_accuracy': 0.5555555555555556, 'test_accuracy': 0.562962962962963}
+{'r': 2, 'ridge': 0.20839101764679419, 'train_accuracy': 0.9911111111111112, 'val_accuracy': 0.9777777777777777, 'test_accuracy': 0.9703703703703703}
+{'r': 3, 'ridge': 21.898901810557717, 'train_accuracy': 1.0, 'val_accuracy': 1.0, 'test_accuracy': 1.0}
+{'r': 4, 'ridge': 2.242566679384767, 'train_accuracy': 1.0, 'val_accuracy': 1.0, 'test_accuracy': 1.0}

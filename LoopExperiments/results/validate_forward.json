@@ -1,0 +1,161 @@
+{
+ "problems": [
+  "gsm8k-0002",
+  "gsm8k-0005",
+  "test/number_theory/572.json",
+  "test/prealgebra/1622.json",
+  "Mbpp/6",
+  "Mbpp/9"
+ ],
+ "official_vs_ours": [
+  {
+   "pid": "gsm8k-0002",
+   "n": 96,
+   "max_abs_dz2": 2.757138252258301,
+   "max_abs_dz4": 5.401813507080078,
+   "mean_abs_dz4": 0.05584138631820679,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 1.4052934646606445,
+   "median_abs_dm2": 0.05942058563232422
+  },
+  {
+   "pid": "gsm8k-0005",
+   "n": 96,
+   "max_abs_dz2": 0.8493309020996094,
+   "max_abs_dz4": 2.212053060531616,
+   "mean_abs_dz4": 0.04408887401223183,
+   "argmax2_agree": 0.9791666865348816,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.4065570831298828,
+   "median_abs_dm2": 0.04485893249511719
+  },
+  {
+   "pid": "test/number_theory/572.json",
+   "n": 96,
+   "max_abs_dz2": 0.5875029563903809,
+   "max_abs_dz4": 0.5427322387695312,
+   "mean_abs_dz4": 0.03744792938232422,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 0.9895833134651184,
+   "max_abs_dm2": 0.35717010498046875,
+   "median_abs_dm2": 0.05340003967285156
+  },
+  {
+   "pid": "test/prealgebra/1622.json",
+   "n": 96,
+   "max_abs_dz2": 0.5357730388641357,
+   "max_abs_dz4": 0.4941577911376953,
+   "mean_abs_dz4": 0.03420903906226158,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.3383655548095703,
+   "median_abs_dm2": 0.04431915283203125
+  },
+  {
+   "pid": "Mbpp/6",
+   "n": 37,
+   "max_abs_dz2": 0.4286975860595703,
+   "max_abs_dz4": 1.6276012659072876,
+   "mean_abs_dz4": 0.04511653631925583,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.2992839813232422,
+   "median_abs_dm2": 0.042957305908203125
+  },
+  {
+   "pid": "Mbpp/9",
+   "n": 53,
+   "max_abs_dz2": 0.5227217674255371,
+   "max_abs_dz4": 0.5108518600463867,
+   "mean_abs_dz4": 0.033454183489084244,
+   "argmax2_agree": 0.9811320900917053,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.2741565704345703,
+   "median_abs_dm2": 0.05000495910644531
+  }
+ ],
+ "single_vs_batch": [
+  {
+   "pid": "gsm8k-0002",
+   "n": 96,
+   "max_abs_dz2": 3.385869026184082,
+   "max_abs_dz4": 4.612534046173096,
+   "mean_abs_dz4": 0.07195087522268295,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 1.5762910842895508,
+   "median_abs_dm2": 0.05165576934814453
+  },
+  {
+   "pid": "gsm8k-0005",
+   "n": 96,
+   "max_abs_dz2": 0.6892094612121582,
+   "max_abs_dz4": 1.7796574831008911,
+   "mean_abs_dz4": 0.03794897347688675,
+   "argmax2_agree": 0.9895833134651184,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.4682044982910156,
+   "median_abs_dm2": 0.04308319091796875
+  },
+  {
+   "pid": "test/number_theory/572.json",
+   "n": 96,
+   "max_abs_dz2": 0.3291168212890625,
+   "max_abs_dz4": 0.38492584228515625,
+   "mean_abs_dz4": 0.034486282616853714,
+   "argmax2_agree": 0.9895833134651184,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.2998199462890625,
+   "median_abs_dm2": 0.05966377258300781
+  },
+  {
+   "pid": "test/prealgebra/1622.json",
+   "n": 96,
+   "max_abs_dz2": 0.3984203338623047,
+   "max_abs_dz4": 0.6943337917327881,
+   "mean_abs_dz4": 0.03495476394891739,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.2681713104248047,
+   "median_abs_dm2": 0.05878639221191406
+  },
+  {
+   "pid": "Mbpp/6",
+   "n": 37,
+   "max_abs_dz2": 0.4739961624145508,
+   "max_abs_dz4": 3.809891700744629,
+   "mean_abs_dz4": 0.051024992018938065,
+   "argmax2_agree": 1.0,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.20183467864990234,
+   "median_abs_dm2": 0.0311737060546875
+  },
+  {
+   "pid": "Mbpp/9",
+   "n": 53,
+   "max_abs_dz2": 0.6297669410705566,
+   "max_abs_dz4": 0.47160768508911133,
+   "mean_abs_dz4": 0.03134457394480705,
+   "argmax2_agree": 0.9811320900917053,
+   "argmax4_agree": 1.0,
+   "max_abs_dm2": 0.3608226776123047,
+   "median_abs_dm2": 0.05175209045410156
+  }
+ ],
+ "official_vs_ours_summary": {
+  "n_positions": 474,
+  "argmax2_agree": 0.9936708917346182,
+  "argmax4_agree": 0.9978902913347075,
+  "max_abs_dz4": 5.401813507080078,
+  "max_abs_dm2": 1.4052934646606445
+ },
+ "single_vs_batch_summary": {
+  "n_positions": 474,
+  "argmax2_agree": 0.9936708796627914,
+  "argmax4_agree": 1.0,
+  "max_abs_dz4": 4.612534046173096,
+  "max_abs_dm2": 1.5762910842895508
+ },
+ "pass": true
+}

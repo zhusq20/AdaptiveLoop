@@ -1,0 +1,10 @@
+[project]
+name = "loopexp"
+version = "0.1.0"
+description = "Ouro loop-2 provable exit under bounded late-loop correction (phase-1 offline validation)"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"

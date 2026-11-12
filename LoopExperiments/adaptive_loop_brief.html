@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自适应 Loop 选题简报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+<style>
+/* Layout: one reading column (~48rem); wide tables and the figure scroll inside their own containers */
+:root {
+  --bg: #F3F6F6;
+  --surface: #FFFFFF;
+  --fg: #13212A;
+  --muted: #53636B;
+  --line: #D6DFE1;
+  --accent: #0A6767;
+  --accent-soft: #DFEEEC;
+  --amber: #965700;
+  --amber-soft: #F8ECD6;
+  --amber-fill: rgba(150, 87, 0, 0.12);
+  --green: #2B6E3E;
+  --green-soft: #E0F0E3;
+  --rose: #9C3345;
+  --rose-soft: #F6E2E5;
+  --font-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1518;
+    --surface: #152025;
+    --fg: #E2EBEE;
+    --muted: #98A9B0;
+    --line: #29373D;
+    --accent: #5CC4BE;
+    --accent-soft: #12302F;
+    --amber: #F0B45A;
+    --amber-soft: #36270F;
+    --amber-fill: rgba(240, 180, 90, 0.14);
+    --green: #82CC93;
+    --green-soft: #16301D;
+    --rose: #F08C9C;
+    --rose-soft: #3A1C22;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1518;
+  --surface: #152025;
+  --fg: #E2EBEE;
+  --muted: #98A9B0;
+  --line: #29373D;
+  --accent: #5CC4BE;
+  --accent-soft: #12302F;
+  --amber: #F0B45A;
+  --amber-soft: #36270F;
+  --amber-fill: rgba(240, 180, 90, 0.14);
+  --green: #82CC93;
+  --green-soft: #16301D;
+  --rose: #F08C9C;
+  --rose-soft: #3A1C22;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding-block: 56px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 56px;
+}
+section, header { display: grid; gap: 18px; min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.35; }
+h1 { font-size: clamp(1.75rem, 4.5vw, 2.35rem); font-weight: 700; letter-spacing: 0.01em; }
+h2 { font-size: 1.4rem; font-weight: 700; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+h3 { font-size: 1.08rem; font-weight: 600; }
+p { margin: 0; max-width: 42rem; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; line-height: 1.7; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.lede { font-size: 1.08rem; color: var(--muted); max-width: 40rem; }
+
+.verdict {
+  background: var(--accent-soft);
+  border-radius: 10px;
+  padding: 22px 24px;
+  display: grid;
+  gap: 12px;
+}
+.verdict h2 { border: 0; padding: 0; font-size: 1.15rem; color: var(--accent); }
+.verdict ul { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+
+/* Math, set inline */
+.m { font-family: "Times New Roman", "Noto Serif SC", serif; font-size: 1.05em; white-space: nowrap; }
+.m i { font-style: italic; }
+.m sub, .m sup { font-size: 0.72em; }
+.eq {
+  font-family: "Times New Roman", "Noto Serif SC", serif;
+  font-size: 1.15rem;
+  text-align: center;
+  padding: 10px 0;
+  overflow-x: auto;
+}
+.eq i { font-style: italic; }
+.eq sub, .eq sup { font-size: 0.72em; }
+
+/* Chips */
+.chip {
+  display: inline-block;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-weight: 500;
+  vertical-align: 0.08em;
+}
+.chip.ok { background: var(--green-soft); color: var(--green); }
+.chip.list { background: var(--line); color: var(--muted); }
+.chip.open { background: var(--rose-soft); color: var(--rose); }
+.chip.part { background: var(--amber-soft); color: var(--amber); }
+.chip.hyp { background: var(--accent-soft); color: var(--accent); }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; min-width: 680px; font-size: 0.92rem; line-height: 1.65; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-weight: 500; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; background: var(--bg); }
+td:first-child { font-weight: 500; }
+td.venue { white-space: nowrap; font-family: var(--font-mono); font-size: 0.82rem; }
+td.venue .chip { margin-top: 4px; font-family: var(--font-body); }
+.legend-row { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+
+/* Mechanism and gap lists */
+.items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.items > li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.items .head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.items .head strong { font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; }
+
+.checklist { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+
+/* Thesis card */
+.thesis {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.thesis .tag { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; }
+.steps { margin: 0; padding-left: 1.4em; display: grid; gap: 14px; }
+.steps > li::marker { font-family: var(--font-mono); color: var(--accent); }
+.steps ul { margin: 8px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+
+/* Figure */
+figure { margin: 0; display: grid; gap: 12px; min-width: 0; }
+.panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.panel { display: grid; gap: 4px; min-width: 0; }
+.panel-title { font-size: 0.86rem; font-weight: 500; }
+.panel svg { width: 100%; height: auto; display: block; }
+svg .axis { stroke: var(--line); stroke-width: 1; fill: none; }
+svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+svg .tick { fill: var(--muted); font-size: 10.5px; font-family: "JetBrains Mono", ui-monospace, monospace; }
+svg .note { fill: var(--fg); font-size: 11px; font-family: "Noto Sans SC", system-ui, sans-serif; font-weight: 500; }
+svg .thr { stroke: var(--amber); stroke-width: 2; stroke-dasharray: 5 4; fill: none; }
+svg .zone { fill: var(--amber-fill); stroke: none; }
+svg .mar { stroke: var(--accent); stroke-width: 2.25; fill: none; }
+svg .dot { fill: var(--accent); stroke: none; }
+svg .exit { fill: var(--surface); stroke: var(--accent); stroke-width: 2.5; }
+.fig-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.84rem; color: var(--muted); }
+.sw { display: inline-block; width: 22px; height: 0; vertical-align: middle; margin-right: 6px; }
+.sw.mar { border-top: 2.5px solid var(--accent); }
+.sw.thr { border-top: 2px dashed var(--amber); }
+.sw.zone { height: 10px; background: var(--amber-fill); border: 1px solid var(--amber-soft); }
+figcaption { font-size: 0.86rem; color: var(--muted); line-height: 1.7; max-width: 44rem; }
+
+.alt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+.alt { display: grid; gap: 6px; align-content: start; min-width: 0; }
+
+.sources { display: grid; gap: 18px; }
+.sources ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.88rem; line-height: 1.6; }
+.sources h3 { font-size: 0.95rem; }
+footer { font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 480px) {
+  .verdict, .thesis { padding: 18px; }
+  body { font-size: 15.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}
+</style>
+
+<style>body{margin:0} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">研究简报 · 2026-11-12 · Looped Transformer</div>
+  <h1>自适应 Loop 选题简报</h1>
+  <p class="lede">目标：让 loop 加深能真正带来提升，并让每个 token 自己决定跑几轮。下面梳理三大会和近期预印本的进展，给出我们建议的论文设计和最先要做的三个实验。</p>
+</header>
+
+<div class="verdict">
+  <h2>结论</h2>
+  <ul>
+    <li>这个方向在 2026 年已经很挤。两个 awesome-list 分别收录了 122 篇和 235 篇论文。三大会里，TaH（ICML'26）、LoopFormer（ICLR'26）、STARS（ICML'26）、Stochastic Stopping（NeurIPS'26）都已经中了。9–10 月又出了 TaH2 和 T-LoopFormer（投 ICLR'27）。单纯再做一个更好的 router 或 halting gate，很难中。</li>
+    <li><strong>突破口：</strong>加深不涨和逐 token 变深其实是同一个问题，应该放进同一套机制里解决。每个 token 的更新幅度有上界并逐轮衰减，停止由一张可证明的证书决定，而不是由 gate 预测。这能直接接上我们已有的 Ouro 有界修正实验。</li>
+  </ul>
+</div>
+
+<section id="landscape">
+  <h2>三大会相关工作</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>论文</th><th>会议</th><th>做了什么</th><th>留下的缺口</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DeepThinking；Path-Independent Equilibria</td>
+          <td class="venue">NeurIPS'22<br><span class="chip list">列表</span></td>
+          <td>recall 输入和路径无关性，让多迭代不再越想越差</td>
+          <td>只在算法任务上验证</td>
+        </tr>
+        <tr>
+          <td>Looped TF for Length Generalization</td>
+          <td class="venue">ICLR'25<br><span class="chip list">列表</span></td>
+          <td>迭代次数随问题长度变化</td>
+          <td>深度由题目长度给定，不是模型自己学的</td>
+        </tr>
+        <tr>
+          <td>Huginn（Recurrent Depth）</td>
+          <td class="venue">NeurIPS'25<br><span class="chip ok">✓ 官方</span></td>
+          <td>训练时随机采样深度，推理时按 KL 收敛退出</td>
+          <td>退出靠启发式</td>
+        </tr>
+        <tr>
+          <td>Mixture-of-Recursions</td>
+          <td class="venue">NeurIPS'25<br><span class="chip list">列表</span></td>
+          <td>router 为每个 token 分配递归深度，KV 按深度分开缓存</td>
+          <td>token-choice 版本在 360M 上不如 vanilla</td>
+        </tr>
+        <tr>
+          <td>LoopFormer</td>
+          <td class="venue">ICLR'26<br><span class="chip ok">✓ 官方</span></td>
+          <td>按预算条件控制弹性深度</td>
+          <td>按样本设定深度，不是逐 token</td>
+        </tr>
+        <tr>
+          <td>Think-at-Hard（TaH）</td>
+          <td class="venue">ICML'26<br><span class="chip ok">✓ 官方</span></td>
+          <td>decider 只让难 token 多迭代；93% 的 token 跳过迭代，反而比每个 token 都迭代高 3.8–4.4 分</td>
+          <td>最多 2 层；decider 的错误以过度迭代为主；墙钟时间慢约 43%</td>
+        </tr>
+        <tr>
+          <td>STARS</td>
+          <td class="venue">ICML'26<br><span class="chip ok">✓ 官方</span></td>
+          <td>Jacobian 谱半径正则加随机 loop 数，压制峰值后的崩溃</td>
+          <td>作者自己指出稳定性和有效性之间有取舍</td>
+        </tr>
+        <tr>
+          <td>RLTT（Prioritize the Process）</td>
+          <td class="venue">ICML'26<br><span class="chip list">作者备注</span></td>
+          <td>对 LoopLM 做 RL，奖励分配到整条 latent 轨迹</td>
+          <td>不涉及自适应深度</td>
+        </tr>
+        <tr>
+          <td>Stochastic Stopping</td>
+          <td class="venue">NeurIPS'26<br><span class="chip ok">✓ 官方</span></td>
+          <td>随机深度训练，加 REINFORCE 学停止分布</td>
+          <td>只在算法任务上；稳定不等于能外推</td>
+        </tr>
+        <tr>
+          <td>Fixed-Point Reasoning；Stability &amp; Generalization；Iso-Depth Scaling Laws</td>
+          <td class="venue">NeurIPS'26<br><span class="chip list">session 列表</span></td>
+          <td>不动点、稳定性、一次循环值多少参数</td>
+          <td>都是收敛或标度层面的结论，没有逐 token 的分析</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="legend-row small muted">
+    <span><span class="chip ok">✓ 官方</span> 在 icml.cc、neurips.cc、iclr.cc 或 PMLR 页面核对过</span>
+    <span><span class="chip list">列表</span> 会议标注来自 awesome-list、session 列表或作者备注</span>
+  </div>
+</section>
+
+<section id="saturation">
+  <h2>为什么加 loop 不涨：五种机制</h2>
+  <ul class="items">
+    <li>
+      <div class="head"><strong>训练深度锚定</strong><span class="chip part">部分解决</span></div>
+      <p>Ouro 训练时固定 T=4。一篇 135M 小模型预印本（<span class="mono">2607.14427</span>）发现，循环模型只用到训练时的平均深度，再加 loop 输出不再变化。我们的 dag_depth 实验里，Ouro-2.6B 跑到第 5–8 轮也不再提高。随机深度训练（Huginn、Stochastic Stopping）能保证多跑不出错，但不会让结果变好。</p>
+    </li>
+    <li>
+      <div class="head"><strong>收敛等于饱和</strong><span class="chip open">未解决</span></div>
+      <p>收缩映射会停在不动点，多跑几轮没有作用；不收缩又会漂移、崩溃。STARS 明确提出了这个取舍，目前没有人解决。</p>
+    </li>
+    <li>
+      <div class="head"><strong>步长过冲</strong><span class="chip part">只有分析</span></div>
+      <p>《Right Direction, Wrong Step》（<span class="mono">2609.16665</span>）在 Ouro-1.4B/GSM8K 上发现：方向是对的，但一整步走过头了。按二次模型缩短步长，能挽回 94.2% 的失败（teacher-forced，只看当步效果），但没有给出可训练的机制。我们的 <span class="m">clip(<i>z</i><sub>4</sub> − <i>z</i><sub>2</sub>, ±<i>B</i>)</span> 就是 logit 空间里的同一件事，这篇必须引用并说清区别。</p>
+    </li>
+    <li>
+      <div class="head"><strong>状态容量</strong><span class="chip open">未解决</span></div>
+      <p>我们的 dag_depth 实验显示，Ouro 难在同时持有并合并两个值，loop 只能跑很浅的程序。</p>
+    </li>
+    <li>
+      <div class="head"><strong>平均值掩盖了逐 token 的差异</strong><span class="chip hyp">待验证</span></div>
+      <p>第 8 轮时只有约 10% 的 token 还在变化（<span class="mono">2607.14427</span>）；TaH 也说明少迭代反而更好。我们的推断：多数简单 token 多跑几轮被改坏，少数难 token 在获益，平均起来就是不涨。实验 E1 检验这一点。</p>
+    </li>
+  </ul>
+</section>
+
+<section id="per-token">
+  <h2>逐 token 变深度：现有方法卡在哪</h2>
+  <ul class="items">
+    <li>
+      <div class="head"><strong>停止没有标签</strong></div>
+      <p>各家各用一种信号：TaH 看参考模型是否出错，TaH2 看下一轮的 loss 增益，Ouro 看改善量。<span class="mono">2607.20519</span> 和 <span class="mono">2607.14427</span> 都发现，直接读收敛或 margin，效果不输学出来的 gate；PonderNet 式的 gate 还会坍缩。</p>
+    </li>
+    <li>
+      <div class="head"><strong>没有真实加速</strong></div>
+      <p>TaH 慢约 43%，TaH2 慢 30–34%。<span class="mono">2610.32246</span> 指出 batch 的耗时由最慢的 token 决定，halting head 实际上几乎跑满所有迭代。</p>
+    </li>
+    <li>
+      <div class="head"><strong>KV 不一致</strong></div>
+      <p>提前退出的 token 缺少深层 KV。现有处理是按深度分开缓存再 mask、复制最后一层状态（Ragged KV，<span class="mono">2610.09013</span>），或共享 KV。这部分已经很挤，适合拿来当组件，不适合当贡献。</p>
+    </li>
+    <li>
+      <div class="head"><strong>超出训练最大深度就退化</strong></div>
+      <p>各家逐 token 的方法都有这个问题。</p>
+    </li>
+  </ul>
+
+  <h3>查新：还没人做的四件事</h3>
+  <p>我们核对了六篇 10–11 月的预印本（<span class="mono">2610.32246</span>、<span class="mono">2611.02333</span>、<span class="mono">2610.14252</span>、<span class="mono">2610.09013</span>、<span class="mono">2610.06833</span>、<span class="mono">2608.18230</span>），以下四件事都没有人做：</p>
+  <ul class="checklist">
+    <li>把多跑几轮的效果逐 token 拆成变好、变坏、不变三类。</li>
+    <li>可证明的停止规则。<span class="mono">2611.02333</span> 和 <span class="mono">2610.32246</span> 都明说自己没有保证。</li>
+    <li>逐 token 学习步长。</li>
+    <li>按后续 token 会读取这个 token 的 KV 来决定停止。<span class="mono">2610.09013</span> 在附录里用 REINFORCE 试过，没有收益。</li>
+  </ul>
+</section>
+
+<section id="design">
+  <h2>推荐的论文设计</h2>
+
+  <div class="thesis">
+    <div class="tag">主线 · 暂名 LOOP UNTIL CERTAIN</div>
+    <h3>可证明的逐 token 有界步长循环</h3>
+    <ol class="steps">
+      <li><strong>发现。</strong>在 Ouro 上把跑 1→8 轮的效果逐 token 拆成变好、变坏、不变三类，检验"平均饱和 = 少数难 token 的获益被多数简单 token 的过冲抵消"。</li>
+      <li><strong>结构。</strong>每个 token、每一轮对 logit（或隐状态）的更新幅度有上界，并按几何级数衰减：
+        <div class="eq">|Δ<i>z</i><sub><i>t</i>,<i>k</i></sub>| ≤ <i>β</i><sub><i>t</i></sub> <i>ρ</i><sub><i>t</i></sub><sup><i>k</i></sup></div>
+        <ul>
+          <li>第 <span class="m"><i>k</i></span> 轮之后最多还能改 <span class="m"><i>R</i><sub><i>k</i></sub> = <i>β</i><sub><i>t</i></sub><i>ρ</i><sub><i>t</i></sub><sup><i>k</i>+1</sup>/(1 − <i>ρ</i><sub><i>t</i></sub>)</span>。top-1 与 top-2 的分差 <span class="m"><i>m</i><sub><i>k</i></sub> &gt; 2<i>R</i><sub><i>k</i></sub></span> 时，无穷多轮之后的 argmax 已经确定。停止判据是一张证书，不需要训练 gate，也不会坍缩。这正是我们 phase-1 的 <span class="m"><i>m</i><sub>2</sub> &gt; 2<i>B</i></span> 推广到任意轮数。</li>
+          <li>更新有界，所以多跑永远不会把已经确定的 token 改坏，解决峰值后的崩溃。</li>
+          <li><span class="m"><i>β</i><sub><i>t</i></sub></span>、<span class="m"><i>ρ</i><sub><i>t</i></sub></span> 由当前状态逐 token 预测。难 token 学到更慢的衰减，获得更长的有效深度。这是绕开 STARS 稳定/有效取舍的关键。</li>
+        </ul>
+      </li>
+      <li><strong>训练。</strong>对难 token 采用长尾深度采样，每一轮都加监督，让模型学会使用超过训练平均值的深度。</li>
+      <li><strong>系统。</strong>用 Ragged KV 加连续深度 batching 测真实墙钟时间，这是审稿人一定会问的。</li>
+    </ol>
+
+    <figure>
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-title">简单 token：<span class="m"><i>ρ</i> = 0.4</span>，第 2 轮退出</div>
+          <svg viewBox="0 0 320 205" role="img" aria-label="简单 token：分差在第 2 轮超过剩余可修改量的两倍，提前退出">
+            <line class="grid" x1="40" y1="20" x2="300" y2="20"/>
+            <line class="grid" x1="40" y1="55" x2="300" y2="55"/>
+            <line class="grid" x1="40" y1="90" x2="300" y2="90"/>
+            <line class="grid" x1="40" y1="125" x2="300" y2="125"/>
+            <line class="axis" x1="40" y1="160" x2="300" y2="160"/>
+            <line class="axis" x1="40" y1="20" x2="40" y2="160"/>
+            <text class="tick" x="33" y="164" text-anchor="end">0</text>
+            <text class="tick" x="33" y="129" text-anchor="end">0.5</text>
+            <text class="tick" x="33" y="94" text-anchor="end">1.0</text>
+            <text class="tick" x="33" y="59" text-anchor="end">1.5</text>
+            <text class="tick" x="33" y="24" text-anchor="end">2.0</text>
+            <text class="tick" x="40" y="176" text-anchor="middle">1</text>
+            <text class="tick" x="77.14" y="176" text-anchor="middle">2</text>
+            <text class="tick" x="114.29" y="176" text-anchor="middle">3</text>
+            <text class="tick" x="151.43" y="176" text-anchor="middle">4</text>
+            <text class="tick" x="188.57" y="176" text-anchor="middle">5</text>
+            <text class="tick" x="225.71" y="176" text-anchor="middle">6</text>
+            <text class="tick" x="262.86" y="176" text-anchor="middle">7</text>
+            <text class="tick" x="300" y="176" text-anchor="middle">8</text>
+            <text class="tick" x="170" y="198" text-anchor="middle">loop k</text>
+            <polygon class="zone" points="40,85.33 77.14,130.13 114.29,148.05 151.43,155.22 188.57,158.09 225.71,159.23 262.86,159.69 300,159.88 300,160 40,160"/>
+            <polyline class="thr" points="40,85.33 77.14,130.13 114.29,148.05 151.43,155.22 188.57,158.09 225.71,159.23 262.86,159.69 300,159.88"/>
+            <polyline class="mar" points="40,104 77.14,62"/>
+            <circle class="dot" cx="40" cy="104" r="3.5"/>
+            <circle class="exit" cx="77.14" cy="62" r="6"/>
+            <text class="note" x="88" y="58">k=2 退出</text>
+          </svg>
+        </div>
+        <div class="panel">
+          <div class="panel-title">难 token：<span class="m"><i>ρ</i> = 0.8</span>，第 6 轮退出</div>
+          <svg viewBox="0 0 320 205" role="img" aria-label="难 token：剩余可修改量衰减更慢，分差到第 6 轮才超过阈值">
+            <line class="grid" x1="40" y1="40" x2="300" y2="40"/>
+            <line class="grid" x1="40" y1="80" x2="300" y2="80"/>
+            <line class="grid" x1="40" y1="120" x2="300" y2="120"/>
+            <line class="axis" x1="40" y1="160" x2="300" y2="160"/>
+            <line class="axis" x1="40" y1="20" x2="40" y2="160"/>
+            <text class="tick" x="33" y="164" text-anchor="end">0</text>
+            <text class="tick" x="33" y="124" text-anchor="end">4</text>
+            <text class="tick" x="33" y="84" text-anchor="end">8</text>
+            <text class="tick" x="33" y="44" text-anchor="end">12</text>
+            <text class="tick" x="40" y="176" text-anchor="middle">1</text>
+            <text class="tick" x="77.14" y="176" text-anchor="middle">2</text>
+            <text class="tick" x="114.29" y="176" text-anchor="middle">3</text>
+            <text class="tick" x="151.43" y="176" text-anchor="middle">4</text>
+            <text class="tick" x="188.57" y="176" text-anchor="middle">5</text>
+            <text class="tick" x="225.71" y="176" text-anchor="middle">6</text>
+            <text class="tick" x="262.86" y="176" text-anchor="middle">7</text>
+            <text class="tick" x="300" y="176" text-anchor="middle">8</text>
+            <text class="tick" x="170" y="198" text-anchor="middle">loop k</text>
+            <polygon class="zone" points="40,32 77.14,57.6 114.29,78.08 151.43,94.46 188.57,107.57 225.71,118.06 262.86,126.45 300,133.16 300,160 40,160"/>
+            <polyline class="thr" points="40,32 77.14,57.6 114.29,78.08 151.43,94.46 188.57,107.57 225.71,118.06 262.86,126.45 300,133.16"/>
+            <polyline class="mar" points="40,156 77.14,150 114.29,142 151.43,133 188.57,124 225.71,114"/>
+            <circle class="dot" cx="40" cy="156" r="3.5"/>
+            <circle class="dot" cx="77.14" cy="150" r="3.5"/>
+            <circle class="dot" cx="114.29" cy="142" r="3.5"/>
+            <circle class="dot" cx="151.43" cy="133" r="3.5"/>
+            <circle class="dot" cx="188.57" cy="124" r="3.5"/>
+            <circle class="exit" cx="225.71" cy="114" r="6"/>
+            <text class="note" x="214" y="100" text-anchor="middle">k=6 退出</text>
+          </svg>
+        </div>
+      </div>
+      <div class="fig-legend">
+        <span><span class="sw mar"></span>top-1 与 top-2 的分差 <span class="m"><i>m</i><sub><i>k</i></sub></span></span>
+        <span><span class="sw thr"></span>剩余可修改量的两倍 <span class="m">2<i>R</i><sub><i>k</i></sub></span></span>
+        <span><span class="sw zone"></span>argmax 仍可能被改写的区域</span>
+      </div>
+      <figcaption>示意数值，<span class="m"><i>β</i> = 2</span>，纵轴为 logit。分差曲线进入阴影区之上即可证明退出。两条分差曲线的逐轮变化都不超过 <span class="m">2<i>βρ</i><sup><i>k</i></sup></span>，满足有界更新的约束。同一套规则下，简单 token 两轮就停，难 token 自然跑到第 6 轮，超过 Ouro 的训练深度 4。</figcaption>
+    </figure>
+  </div>
+
+  <h3>需要写明的两点</h3>
+  <ul class="checklist">
+    <li>证书只保证和"有界版本的满深度模型"输出一致，不保证答案正确。真正的代价是被截断的那部分深层修正，也就是 phase-1 测的"深层改判保留率"。</li>
+    <li>我们的 agentic_loop_depth 实验里，校准阈值换了 few-shot 示例就出现高置信错误（270 个未见程序错 1 个，固定 3 轮全对）。这说明了预测型停止的通病，可以作为证书型停止的动机。</li>
+  </ul>
+
+  <div class="alt-grid">
+    <div class="alt">
+      <h3>备选 B：按下游价值停止</h3>
+      <p>衡量一个 token 多跑几轮对后面 token 的 loss 有多大影响，而不只看它自己。新颖性最高，风险也最大：如果这个影响和 token 自己的置信度高度相关，这个故事就不成立。实验 E2 先做判断。</p>
+    </div>
+    <div class="alt">
+      <h3>备选 C：变深度 on-policy RL</h3>
+      <p>在 RLTT 的基础上，把每个 token 的深度也作为策略的一部分来学。推理引擎需要支持变深度 rollout，工程量很大，暂不推荐。</p>
+    </div>
+  </div>
+</section>
+
+<section id="experiments">
+  <h2>先做的三个 go/no-go 实验</h2>
+  <p>都在 Ouro-1.4B/2.6B 上做。E1、E2 直接复用我们按轮分开 KV 的 Ouro 前向，各需 1–2 GPU 天。</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>实验</th><th>做法</th><th>继续的条件</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E1 逐 token 深度响应</td>
+          <td>跑 1–8 轮，teacher-forced 下统计每个 token 变好、变坏、不变</td>
+          <td>第 5–8 轮里变坏的 token 占比明显，且集中在早期高置信的 token 上</td>
+        </tr>
+        <tr>
+          <td>E2 下游价值</td>
+          <td>把第 <span class="m"><i>t</i></span> 个 token 的第 3–4 轮 KV 换成第 2 轮的，看后续 token 的 Δloss，再和它自身的 Δloss 比较</td>
+          <td>两者相关性低，且下游影响集中在少数 token 上（例如数字、变量），备选 B 才可行</td>
+        </tr>
+        <tr>
+          <td>E3 phase-1 全量</td>
+          <td>已经写好的 4 轮有界修正实验，约 7 GPU-h；确认 GPU 和阈值后启动</td>
+          <td>有一段 <span class="m"><i>B</i></span> 使退出率可观，同时大多数深层改判被保留，主线才可行</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>时间风险：</strong>TaH2 和 T-LoopFormer 已经在审。ICML 2027 通常 1 月底截稿，时间很紧，E1/E2 的结论最好在 12 月中旬前拿到。</p>
+</section>
+
+<section id="sources" class="sources">
+  <h2>来源</h2>
+  <div>
+    <h3>三大会官方页面</h3>
+    <ul>
+      <li><a href="https://icml.cc/virtual/2026/poster/61109" target="_blank" rel="noopener">STARS · ICML 2026 poster</a></li>
+      <li><a href="https://icml.cc/virtual/2026/poster/62678" target="_blank" rel="noopener">Think-at-Hard · ICML 2026 poster</a> · <a href="https://proceedings.mlr.press/v306/fu26t.html" target="_blank" rel="noopener">PMLR</a> · <a href="https://arxiv.org/html/2511.08577v2" target="_blank" rel="noopener">arXiv 2511.08577</a></li>
+      <li><a href="https://iclr.cc/media/iclr-2026/Slides/10009450.pdf" target="_blank" rel="noopener">LoopFormer · ICLR 2026 slides</a></li>
+      <li><a href="https://neurips.cc/virtual/2026/loc/sydney/poster/152714" target="_blank" rel="noopener">Stochastic Stopping · NeurIPS 2026 poster</a> · <a href="https://arxiv.org/html/2606.29983v1" target="_blank" rel="noopener">arXiv 2606.29983</a></li>
+      <li><a href="https://neurips.cc/virtual/2026/loc/sydney/poster/153805" target="_blank" rel="noopener">A Mechanistic Analysis of Looped Reasoning LMs · NeurIPS 2026</a></li>
+      <li><a href="https://neurips.cc/virtual/2026/loc/sydney/session/137647" target="_blank" rel="noopener">NeurIPS 2026 Poster Session 3</a> · <a href="https://neurips.cc/virtual/2026/loc/sydney/session/137649" target="_blank" rel="noopener">Poster Session 5</a></li>
+      <li><a href="https://neurips.cc/virtual/2025/poster/117966" target="_blank" rel="noopener">Huginn · NeurIPS 2025 poster</a></li>
+    </ul>
+  </div>
+  <div>
+    <h3>论文与预印本</h3>
+    <ul>
+      <li><a href="https://arxiv.org/pdf/2507.10524" target="_blank" rel="noopener">Mixture-of-Recursions</a></li>
+      <li><a href="https://arxiv.org/abs/2602.10520" target="_blank" rel="noopener">RLTT · Prioritize the Process</a></li>
+      <li><a href="https://arxiv.org/html/2510.25741v2" target="_blank" rel="noopener">Ouro · Scaling Latent Reasoning via Looped Language Models</a></li>
+      <li><a href="https://www.alphaxiv.org/abs/2609.35748" target="_blank" rel="noopener">TaH2 · Improving Test-Time Scaling with Adaptive Looped Transformers</a></li>
+      <li><a href="https://arxiv.org/html/2609.15160" target="_blank" rel="noopener">T-LoopFormer</a></li>
+      <li><a href="https://paperswithcode.co/paper/2607.20519" target="_blank" rel="noopener">Adaptive Depth in Looped Transformers: Diagnosing Learned Halting Gates</a></li>
+      <li><a href="https://arxiv.org/html/2608.09444" target="_blank" rel="noopener">Depth-adaptive Inference via Continuous Depth Batching</a></li>
+      <li><a href="https://arxiv.org/pdf/2609.16665" target="_blank" rel="noopener">Right Direction, Wrong Step</a></li>
+      <li><a href="https://arxiv.org/html/2606.18206" target="_blank" rel="noopener">Fixed-Point Reasoners</a></li>
+      <li><a href="https://arxiv.org/pdf/2605.12466" target="_blank" rel="noopener">Solve the Loop: Attractor Models</a></li>
+      <li><a href="https://arxiv.org/pdf/2607.14427" target="_blank" rel="noopener">Per-Token Fixed-Point Convergence in Depth-Recurrent Transformers</a></li>
+      <li><a href="https://arxiv.org/html/2610.33360" target="_blank" rel="noopener">LSTM-Style Looped Transformers with Shared KV Caches</a> · <a href="https://arxiv.org/pdf/2607.15456" target="_blank" rel="noopener">Looped Latent Attention</a></li>
+      <li><a href="https://arxiv.org/pdf/2312.04916" target="_blank" rel="noopener">EE-LLM</a> · <a href="https://arxiv.org/pdf/2307.02628" target="_blank" rel="noopener">SkipDecode</a></li>
+    </ul>
+  </div>
+  <div>
+    <h3>查新核对的预印本</h3>
+    <ul>
+      <li><a href="https://arxiv.org/abs/2610.32246" target="_blank" rel="noopener">2610.32246 · Do Halting Heads Really Save Compute in Looped LMs?</a></li>
+      <li><a href="https://arxiv.org/abs/2611.02333" target="_blank" rel="noopener">2611.02333 · When Does Adaptive Halting Win?</a></li>
+      <li><a href="https://arxiv.org/abs/2610.14252" target="_blank" rel="noopener">2610.14252 · Adaptive-Depth Is a Finishing Stage</a></li>
+      <li><a href="https://arxiv.org/abs/2610.09013" target="_blank" rel="noopener">2610.09013 · Enabling Dynamic Computation in Looped LMs</a></li>
+      <li><a href="https://arxiv.org/abs/2610.06833" target="_blank" rel="noopener">2610.06833 · Towards Looped Models Done Right, Part II</a></li>
+      <li><a href="https://arxiv.org/abs/2608.18230" target="_blank" rel="noopener">2608.18230 · Allocating Recurrent Compute in Looped LMs</a></li>
+    </ul>
+  </div>
+  <div>
+    <h3>论文列表与综述</h3>
+    <ul>
+      <li><a href="https://github.com/Mrkkew/Awesome-Loop-Transformers" target="_blank" rel="noopener">Awesome-Loop-Transformers（235 篇）</a></li>
+      <li><a href="https://github.com/asimfish/awesome_loop_transformer" target="_blank" rel="noopener">awesome_loop_transformer（122 篇）</a></li>
+      <li><a href="https://www.themoonlight.io/review/scaling-latent-reasoning-via-looped-language-models" target="_blank" rel="noopener">Moonlight 对 Ouro 的评述</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>预印本多数只读了 HTML 前约 4 万字符和其余部分的摘要，文中数字以原文为准。会议标注未打 ✓ 的条目来自列表或作者备注，引用前请到官方页面再核对一次。</footer>
+
+</div>
+</body>
+</html>
