@@ -2,6 +2,8 @@
 
 - 研究计划：[plan.md](plan.md)
 - 可执行的实验设计与已完成的验证：[EXPERIMENT.md](EXPERIMENT.md)
+- 论文选题简报（文献地图与推荐设计）：[adaptive_loop_brief.html](adaptive_loop_brief.html)
+- 论文实验计划（E1–E3 判定与后续阶段）：[PAPER_PLAN.md](PAPER_PLAN.md)
 
 **原始项目状态**：代码、单元测试、前向等价性验证与三数据集冒烟测试均已完成；原计划的 2,197 题全量采集尚未启动。
 
